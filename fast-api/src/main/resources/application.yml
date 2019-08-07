@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://47.105.144.209:3306/recycle?useUnicode=true&characterEncoding=UTF-8&useSSL=true
-    username: wxx
-    password: tangseng726
+    url: jdbc:mysql://localhost:3306/recycle?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username:
+    password:
     driver-class-name: com.mysql.jdbc.Driver
 
 mybatis-plus:
@@ -17,6 +17,5 @@ mybatis-plus:
 server:
   port: 8080
 
-appSecret: 1a41ec237afa26eb4738d45ef4b33a6e
 logging:
   config: classpath:logback.xml
