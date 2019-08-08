@@ -7,6 +7,7 @@ import com.frame.fast.common.WxSessionEntity;
 import com.frame.fast.model.PersonInfo;
 import com.frame.fast.service.person.PersonInfoService;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Slf4j
 public class PersonController {
 
     Gson gson = new Gson();
@@ -64,6 +66,7 @@ public class PersonController {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("open_id",openId);
         PersonInfo personInfo = (PersonInfo) personInfoService.getOne(wrapper);
+        log.info("personInfo is {}",personInfo.toString());
         return gson.toJson(ResponseVo.successVo("success",personInfo));
     }
 
