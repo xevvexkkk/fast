@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.frame.fast.common.ResponseVo;
 import com.frame.fast.common.WxSessionEntity;
+import com.frame.fast.model.CustomProduct;
 import com.frame.fast.model.PersonInfo;
+import com.frame.fast.service.custom.ICustomProductService;
 import com.frame.fast.service.person.PersonInfoService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -13,21 +15,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @Slf4j
 public class PersonController {
 
-    Gson gson = new Gson();
+    private Gson gson = new Gson();
 
     private static final String appSecret = "1a41ec237afa26eb4738d45ef4b33a6e";
 
@@ -40,7 +40,9 @@ public class PersonController {
     @Resource
     private PersonInfoService personInfoService;
 
-    @RequestMapping("/saveInfo")
+    @Resource
+    private ICustomProductService customProductService;
+    @PostMapping("/saveInfo")
     public String saveInfo(@RequestBody PersonInfo personInfo){
         if(personInfo == null || StringUtils.isEmpty(personInfo.getOpenId())) {
             return gson.toJson(ResponseVo.failVo("personInfo cann`t be null"));
@@ -52,13 +54,14 @@ public class PersonController {
             personInfo.setId(one.getId());
             personInfoService.updateById(personInfo);
         }else{
+            personInfo.setNoviceFlag(true);
             personInfoService.save(personInfo);
         }
             System.out.print(personInfo.toString());
             return gson.toJson(ResponseVo.successVo("success",personInfo));
     }
 
-    @RequestMapping("/userInfo/{openId}")
+    @GetMapping("/userInfo/{openId}")
     public String getUserInfo(@PathVariable String openId){
         if(StringUtils.isEmpty(openId)){
             return gson.toJson(ResponseVo.failVo("openId can`t be null"));
@@ -70,7 +73,7 @@ public class PersonController {
         return gson.toJson(ResponseVo.successVo("success",personInfo));
     }
 
-    @RequestMapping("/openId")
+    @GetMapping("/openId")
     public String getOpenId(String appid,String secret,String js_code,String grant_type){
         Map<String,Object> param = new HashMap<>();
         param.put("appid",appId);
@@ -91,6 +94,13 @@ public class PersonController {
         String result = restTemplate.postForEntity(wx_api, request, String.class).getBody();
         WxSessionEntity wxSessionEntity = gson.fromJson(result,WxSessionEntity.class);
         return gson.toJson(wxSessionEntity);
+    }
+
+    @GetMapping("/personal/order")
+    public ResponseVo getUserValidOrders(@RequestParam String openId){
+        PersonInfo personInfo = personInfoService.getByOpenId(openId);
+        List<CustomProduct> products = customProductService.getByCustomId(personInfo.getId());
+        return ResponseVo.successVo(products);
     }
 
 }

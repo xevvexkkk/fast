@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.frame.fast.mapper")
+@MapperScan("com.frame.fast.repository")
 public class Application {
 
 	public static void main(String[] args) {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.fast.repository.PersonAddressPurchaseInfoMapper">
+
+    <sql id="column">
+        id,community,area,address,mobile,open_id,product_sort,purchase_num,user_id
+    </sql>
+
+    <select id="selectByUserInfo" resultType="com.frame.fast.model.PersonAddressPurchaseInfo">
+        select
+        <include refid="column" />
+        from person_address_purchase_info
+        <where>
+            product_sort = #{productSort}
+            and (
+                user_id = #{userId}
+                or(
+            community =#{community}
+            and area = #{area}
+            and address = #{address}
+                )
+            )
+        </where>
+    </select>
+
+</mapper>

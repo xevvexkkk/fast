@@ -6,10 +6,8 @@ import lombok.Data;
 
 @Data
 @TableName("person_info")
-public class PersonInfo {
+public class PersonInfo extends BaseEntity{
 
-    @TableId
-    private Long id;
 
     private Integer sex;
 
@@ -24,4 +22,6 @@ public class PersonInfo {
     private Integer area;
 
     private Integer community;
+    //新用户
+    private Boolean noviceFlag;
 }

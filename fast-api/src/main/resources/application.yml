@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/recycle?useUnicode=true&characterEncoding=UTF-8&useSSL=true
-    username:
-    password:
+    url: jdbc:mysql://47.105.144.209:3306/recycle?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username: wxx
+    password: tangseng726
     driver-class-name: com.mysql.jdbc.Driver
 
 mybatis-plus:
@@ -12,7 +12,8 @@ mybatis-plus:
       id-type: AUTO
       table-underline: true
   mapper-locations: classpath:mapper/*Mapper.xml
-
+  # 支持统配符 * 或者 ; 分割
+  typeEnumsPackage: com.frame.fast.model
 
 server:
   port: 8080
@@ -21,3 +22,5 @@ logging:
   config: classpath:logback-spring.xml
 #  path: E:/logs/fast
   path: /home/log
+
+appId: wxbc1b80f39e9ef6a8

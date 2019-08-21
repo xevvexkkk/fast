@@ -4,6 +4,12 @@
 
     <property name="HOME_LOG" value="${logPath}/fast.log"/>
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${HOME_LOG}</file>
 
@@ -22,8 +28,9 @@
         </encoder>
     </appender>
 
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="FILE-ROLLING"/>
+        <appender-ref ref="STDOUT" />
     </root>
 
 </configuration>
