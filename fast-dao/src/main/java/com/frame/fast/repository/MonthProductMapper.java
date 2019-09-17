@@ -1,7 +1,7 @@
 package com.frame.fast.repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.frame.fast.model.CustomProduct;
+import com.frame.fast.model.MonthProduct;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.frame.fast.model.CustomProduct;
  * @author jobob
  * @since 2019-08-12
  */
-public interface CustomProductMapper extends BaseMapper<CustomProduct> {
+public interface MonthProductMapper extends BaseMapper<MonthProduct> {
 
 }

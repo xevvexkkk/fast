@@ -4,7 +4,15 @@ spring:
     username: wxx
     password: tangseng726
     driver-class-name: com.mysql.jdbc.Driver
-
+  redis:
+    database: 0
+    host: 47.105.144.209
+    port: 6897
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
 mybatis-plus:
   type-aliases-package: com.frame.fast
   global-config:

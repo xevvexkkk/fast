@@ -3,6 +3,9 @@ package com.frame.fast.service.order;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.frame.fast.model.Order;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 
 /**
  * <p>
@@ -15,4 +18,6 @@ import com.frame.fast.model.Order;
 public interface IOrderService extends IService<Order> {
 
     Order getOrderByOrderId(Long orderId);
+
+    List<Order> getListByOpenId(Long userId, LocalDateTime startDate, LocalDateTime endDate);
 }

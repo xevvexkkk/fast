@@ -8,6 +8,8 @@ import com.frame.fast.service.order.IOrderService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -28,6 +30,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         QueryWrapper<Order> wrapper = new QueryWrapper<>();
         wrapper.eq("order_id",orderId);
         return orderMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public List<Order> getListByOpenId(Long userId, LocalDateTime startDate, LocalDateTime endDate){
+        QueryWrapper<Order> wrapper = new QueryWrapper<>();
+        wrapper.eq("custom_id",userId);
+        wrapper.between("create_at",startDate,endDate);
+        wrapper.orderByDesc("id");
+        return orderMapper.selectList(wrapper);
     }
 
 

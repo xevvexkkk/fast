@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,32 +40,32 @@ public class PayController {
      * @param request
      */
     @PostMapping("/pay")
-    public ResponseVo wxPay(@RequestParam String openId, HttpServletRequest request,@RequestParam Integer productCode,@RequestParam Integer fee){
+    public ResponseVo wxPay(@RequestParam String openId, HttpServletRequest request,@RequestParam ProductSort productCode,@RequestParam Integer fee){
         try{
             if(StringUtils.isEmpty(openId)){
-                return ResponseVo.failVo("openid can`t by empty");
+                return ResponseVo.failVo("openid cann`t by empty");
             }
             if(productCode == null){
-                return ResponseVo.failVo("productCode can`t by null");
+                return ResponseVo.failVo("productCode cann`t by null");
             }
             String msg = "";
-            ProductSort productSort = ProductSort.forCode(productCode);
-            if(productSort == null){
+//            ProductSort productSort = ProductSort.forCode(productCode);
+            if(productCode == null){
                 return ResponseVo.failVo("未查询到对应的商品信息");
             }
-            CheckResult checkResult = payFacade.checkBeforeOrder(openId, msg, productSort);
+            CheckResult checkResult = payFacade.checkBeforeOrder(openId, msg, productCode);
             if(!checkResult.isResult()){
                 return ResponseVo.failVo(checkResult.getMsg());
             }
 
             PersonInfo user = personInfoService.getByOpenId(openId);
             if(user == null){
-                return ResponseVo.failVo("用户不存在");
+                return ResponseVo.failVo("用户尚未预留地址，请前往我的->我的地址预留地址后再进行购买");
             }
             //生成的随机字符串
             String nonce_str = StringUtil.getRandomStringByLength(32);
             //商品名称
-            String body = "测试商品名称";
+            String body = productCode.getName();
             //获取客户端的ip地址
             String spbill_create_ip = IpUtil.getIpAddr(request);
 
@@ -134,8 +135,8 @@ public class PayController {
                 order.setPrepayId(prepay_id);
                 order.setSpbillCreateIp(spbill_create_ip);
                 order.setOpenId(openId);
-                order.setProductSort(productSort);
-                order.setTotalFee(productSort.getCode());
+                order.setProductSort(productCode);
+                order.setTotalFee(productCode.getCode());
                 order.setRealFee(fee);
                 order.setOrderId(orderId);
                 orderService.save(order);
@@ -212,6 +213,10 @@ public class PayController {
         }
         String result = org.apache.commons.lang3.StringUtils.substringAfterLast(errMsg,":");
         OrderStatus orderStatus= OrderStatus.forName(result);
+        if(Arrays.asList(FastConstant.WHITE_LIST).contains(order.getCustomId()) ){
+            orderStatus = OrderStatus.SUCCESS;
+        }
+
         if(orderStatus == null){
             orderStatus = OrderStatus.ABNORMAL;
             log.warn("订单号{}，状态异常",order);

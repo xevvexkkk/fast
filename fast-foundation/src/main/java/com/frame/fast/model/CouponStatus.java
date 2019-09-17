@@ -2,13 +2,12 @@ package com.frame.fast.model;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 
-public enum OrderStatus {
+public enum CouponStatus {
 
-    INIT(0,"init","初始"),
-    SUCCESS(1,"ok","已成交"),
-    FAIL_CANCEL(2,"fail cancel","已取消"),
-    FAIL(3,"fail","支付失败"),
-    ABNORMAL(4,"abnormal","订单异常"),
+    INVALID(0,"无效"),
+    VALID(1,"有效"),
+    EXPIRED(2,"过期"),
+    USED(3,"已使用"),
     ;
 
     @EnumValue
@@ -16,15 +15,13 @@ public enum OrderStatus {
 
     private String name;
 
-    private String desc;
-    OrderStatus(Integer value, String name,String desc){
+    CouponStatus(Integer value, String name){
         this.value = value;
         this.name = name;
-        this.desc = desc;
     }
 
-    public static OrderStatus forValue(int value) {
-        for (OrderStatus sort : OrderStatus.values()) {
+    public static CouponStatus forValue(int value) {
+        for (CouponStatus sort : CouponStatus.values()) {
             if (sort.getValue() == value) {
                 return sort;
             }
@@ -32,8 +29,8 @@ public enum OrderStatus {
         return null;
     }
 
-    public static OrderStatus forName(String name) {
-        for (OrderStatus sort : OrderStatus.values()) {
+    public static CouponStatus forName(String name) {
+        for (CouponStatus sort : CouponStatus.values()) {
             if (sort.getName().equals(name)) {
                 return sort;
             }
@@ -55,13 +52,5 @@ public enum OrderStatus {
 
     public void setValue(Integer value) {
         this.value = value;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 }

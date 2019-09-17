@@ -8,28 +8,18 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 用户产品状态
+ * 用户产品状态-单次
  * </p>
  *
  * @author jobob
- * @since 2019-08-12
+ * @since 2019-09-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class CustomProduct extends BaseEntity {
+public class SingleProduct extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 订单号
-     */
-    private Long orderId;
-
-    /**
-     * prepay_id
-     */
-    private String prepayId;
 
     /**
      * 用户Id
@@ -42,7 +32,7 @@ public class CustomProduct extends BaseEntity {
     private String openId;
 
     /**
-     * 产品分类
+     * 月卡分类
      */
     private ProductSort productSort;
 
