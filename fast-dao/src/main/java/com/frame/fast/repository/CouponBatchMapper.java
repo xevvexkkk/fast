@@ -2,6 +2,8 @@ package com.frame.fast.repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.frame.fast.model.CouponBatch;
+import com.frame.fast.model.CouponStatus;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.frame.fast.model.CouponBatch;
  */
 public interface CouponBatchMapper extends BaseMapper<CouponBatch> {
 
+    public void reset(@Param("id") Long id, @Param("status")CouponStatus status);
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -45,7 +46,8 @@ public class Coupon extends BaseEntity {
     /**
      * 开始日期
      */
-    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startDate;
 
     /**
@@ -61,4 +63,5 @@ public class Coupon extends BaseEntity {
 
     private ProductSort productSort;
 
+    private Boolean lockStatus;
 }

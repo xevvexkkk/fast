@@ -1,4 +1,4 @@
-package com.frame.fast.common;
+package com.frame.fast.model;
 
 import lombok.Data;
 
@@ -24,6 +24,13 @@ public class ResponseVo {
         responseVo.message = "请求成功";
         responseVo.success = true;
         responseVo.data = data;
+        return responseVo;
+    }
+
+    public static ResponseVo successVo(){
+        ResponseVo responseVo = new ResponseVo();
+        responseVo.message = "请求成功";
+        responseVo.success = true;
         return responseVo;
     }
 

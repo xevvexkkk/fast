@@ -14,4 +14,8 @@ import com.frame.fast.model.CouponBatch;
 public interface ICouponBatchService extends IService<CouponBatch> {
 
     CouponBatch getByCouponCode(String couponCode);
+
+    void reset(CouponBatch couponBatch);
+
+    CouponBatch getByCouponId(Long couponId);
 }

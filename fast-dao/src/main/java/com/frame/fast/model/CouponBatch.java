@@ -1,5 +1,6 @@
 package com.frame.fast.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -45,11 +46,13 @@ public class CouponBatch extends BaseEntity {
     /**
      * 发券日期
      */
+    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime giveDate;
 
     /**
      * 使用日期
      */
+    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime useDate;
 
     /**
@@ -60,7 +63,7 @@ public class CouponBatch extends BaseEntity {
     /**
      * 用户id
      */
-    private Long userId;
+    private Long customId;
 
 
     public CouponBatch(){

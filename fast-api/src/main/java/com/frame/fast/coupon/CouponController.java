@@ -3,7 +3,7 @@ package com.frame.fast.coupon;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.frame.fast.CouponFacade;
-import com.frame.fast.common.ResponseVo;
+import com.frame.fast.model.ResponseVo;
 import com.frame.fast.model.CheckResult;
 import com.frame.fast.model.Coupon;
 import com.frame.fast.model.PersonInfo;

@@ -1,7 +1,7 @@
 package com.frame.fast.pay;
 
 import com.frame.fast.PayFacade;
-import com.frame.fast.common.ResponseVo;
+import com.frame.fast.model.ResponseVo;
 import com.frame.fast.model.*;
 import com.frame.fast.pay.constant.WxPayConfig;
 import com.frame.fast.service.order.IOrderService;

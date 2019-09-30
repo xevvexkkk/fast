@@ -1,5 +1,6 @@
 package com.frame.fast.common;
 
+import com.frame.fast.model.ResponseVo;
 import com.frame.fast.pay.constant.WxPayConfig;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

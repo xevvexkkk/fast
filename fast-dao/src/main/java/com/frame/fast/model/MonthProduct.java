@@ -57,4 +57,8 @@ public class MonthProduct extends BaseEntity {
     @JsonFormat( pattern = "yyyy-MM-dd")
     private LocalDateTime endDate;
 
+    /**
+     * 员工Id
+     */
+    private Integer staffId;
 }

@@ -9,6 +9,7 @@ import com.frame.fast.service.order.IOrderService;
 import com.frame.fast.service.person.IPersonAddressPurchaseInfoService;
 import com.frame.fast.service.person.PersonInfoService;
 import com.frame.fast.util.DateUtils;
+import com.frame.fast.util.MailService;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,8 @@ public class PayFacade {
     private ValueOperations<String, String> valueOperations;
     @Resource
     private ISingleProductService singleProductService;
+    @Resource
+    private MailService mailService;
     public CheckResult checkBeforeOrder(String openId, String msg, ProductSort productSort){
         CheckResult result = new CheckResult();
         if(StringUtils.isEmpty(openId)){
@@ -72,7 +75,7 @@ public class PayFacade {
             return result;
         }
         if(ProductSort.CLASSFY_MONTH_NEW.equals(productSort)){
-            List<PersonAddressPurchaseInfo> purchaseInfos = purchaseInfoService.getByUserIdOrAddress(personInfo.getId(), productSort, personInfo.getCommunity(), personInfo.getArea(), personInfo.getAddress());
+            List<PersonAddressPurchaseInfo> purchaseInfos = purchaseInfoService.getByUserIdOrAddress(personInfo.getId(), productSort, personInfo.getCommunity().getValue(), personInfo.getArea(), personInfo.getAddress());
             if(CollectionUtils.isNotEmpty(purchaseInfos)){
                 msg = "该产品无法重复购买";
                 result.setMsg(msg);
@@ -133,7 +136,7 @@ public class PayFacade {
 
             }
             //4.用户地址购买信息
-            PersonAddressPurchaseInfo purchaseInfo = purchaseInfoService.getByUserIdAndAddress(order.getCustomId(), order.getProductSort(), personInfo.getCommunity(), personInfo.getArea(), personInfo.getAddress());
+            PersonAddressPurchaseInfo purchaseInfo = purchaseInfoService.getByUserIdAndAddress(order.getCustomId(), order.getProductSort(), personInfo.getCommunity().getValue(), personInfo.getArea(), personInfo.getAddress());
             if(purchaseInfo != null){
                 purchaseInfo.setPurchaseNum(purchaseInfo.getPurchaseNum() + 1);
                 purchaseInfoService.updateById(purchaseInfo);
@@ -141,7 +144,7 @@ public class PayFacade {
                 purchaseInfo = new PersonAddressPurchaseInfo();
                 purchaseInfo.setPurchaseNum(1);
                 purchaseInfo.setAddress(personInfo.getAddress());
-                purchaseInfo.setCommunity(personInfo.getCommunity());
+                purchaseInfo.setCommunity(personInfo.getCommunity().getValue());
                 purchaseInfo.setArea(personInfo.getArea());
                 purchaseInfo.setMobile(personInfo.getMobile());
                 purchaseInfo.setOpenId(personInfo.getOpenId());
@@ -150,6 +153,7 @@ public class PayFacade {
                 purchaseInfoService.save(purchaseInfo);
             }
             valueOperations.set(FastConstant.MONTH_CARD + personInfo.getId(),null);
+            mailService.sendTextMail(FastConstant.ORDER_NOTIFY_MAIN_LIST[0],FastConstant.ORDER_NOTIFY_TITLE,FastConstant.getOrderNotifyContent(order.getProductSort(),personInfo.getName(),personInfo.getMobile(),personInfo.getCommunity().getValue(),personInfo.getAddress()));
         }
     }
 

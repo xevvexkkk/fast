@@ -16,6 +16,7 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,12 +29,11 @@ public class AcodeController {
     private RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping("/QrCode")
-    public void getQrCodeImage(HttpServletResponse response) throws IOException {
+    public void getQrCodeImage(HttpServletResponse response,String channelNo) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
 // if you need to pass form parameters in request with headers.
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 //        map.add("grant_type", WxPayConfig.client_credential);
 //        map.add("appid", WxPayConfig.appid);
 //        map.add("secret", WxPayConfig.appSecret);
@@ -41,7 +41,6 @@ public class AcodeController {
         param.put("grant_type",WxPayConfig.client_credential);
         param.put("appid",WxPayConfig.appid);
         param.put("secret",WxPayConfig.appSecret);
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 //        String tarUrl = WxPayConfig.access_token_url + "?grant_type=" + WxPayConfig.client_credential + "&appid=" + WxPayConfig.appid + "&secret=" + WxPayConfig.appSecret;
         String tarUrl = WxPayConfig.access_token_url + "?grant_type=" + WxPayConfig.client_credential + "&appid={appid}&secret={secret}";
 //        String httpResStr = PayUtil.httpRequest(tarUrl, "GET",null );
@@ -50,10 +49,12 @@ public class AcodeController {
         if(tokenEntity == null || StringUtils.isEmpty(tokenEntity.getAccess_token()) ){
             return;
         }
-        map.add("scene", "10001");
+        param.clear();
+        param.put("scene",channelNo);
+        HttpEntity<String> req = new HttpEntity<>(gson.toJson(param),headers);
 //        map.add("access_token",tokenEntity.getAccess_token());
 //        String result = PayUtil.httpRequest(WxPayConfig.pay_url, "POST", xml.toString());
-        /*ResponseEntity<byte[]> buffer = restTemplate.postForEntity(WxPayConfig.generate_acode_url + tokenEntity.getAccess_token(),request, byte[].class);
+        ResponseEntity<byte[]> buffer = restTemplate.postForEntity(WxPayConfig.generate_acode_url + tokenEntity.getAccess_token(),req, byte[].class);
         byte[] image = buffer.getBody();
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         response.setHeader("Content-disposition","attachment; filename=_channel=10001.jpeg");
@@ -75,8 +76,8 @@ public class AcodeController {
             throw new RuntimeException(e);
         }finally {
             out.close();
-        }*/
-        RestTemplate rest = new RestTemplate();
+        }
+        /*RestTemplate rest = new RestTemplate();
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
@@ -90,7 +91,7 @@ public class AcodeController {
             headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
             HttpEntity requestEntity = new HttpEntity(param, headerss);
             ResponseEntity<byte[]> entity = rest.exchange(WxPayConfig.generate_acode_url + tokenEntity.getAccess_token(), HttpMethod.POST, requestEntity, byte[].class, new Object[0]);
-            log.info("调用小程序生成微信永久二维码URL接口返回结果:" + entity.getHeaders().toString() +  entity.getBody());
+            log.info("调用小程序生成微信永久二维码URL接口返回结果:" + entity.getHeaders().toString() + Arrays.toString(entity.getBody()));
             byte[] results = entity.getBody();
             log.info(Base64.encodeBase64String(results));
             inputStream = new ByteArrayInputStream(results);
@@ -123,7 +124,7 @@ public class AcodeController {
                     e.printStackTrace();
                 }
             }
-        }
+        }*/
     }
 
     /*private Map getminiqrQr(String accessToken,HttpServletResponse response) {*/

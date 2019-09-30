@@ -39,6 +39,16 @@ public class MonthProductServiceImpl extends ServiceImpl<MonthProductMapper, Mon
     }
 
     @Override
+    public List<MonthProduct> list(Long customId){
+        QueryWrapper<MonthProduct> wrapper = new QueryWrapper<>();
+        if(customId != null){
+            wrapper.eq("custom_id",customId);
+        }
+        wrapper.orderByAsc("custom_id");
+        return monthProductMapper.selectList(wrapper);
+    }
+
+    @Override
     public List<MonthProduct> getNotFinishedProducts(Long customId){
         QueryWrapper<MonthProduct> wrapper = new QueryWrapper<>();
         wrapper.eq("custom_id",customId);

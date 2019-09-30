@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public enum ProductSort {
 

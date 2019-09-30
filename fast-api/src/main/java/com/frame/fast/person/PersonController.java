@@ -3,7 +3,7 @@ package com.frame.fast.person;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.frame.fast.common.ResponseVo;
+import com.frame.fast.model.ResponseVo;
 import com.frame.fast.common.WxSessionEntity;
 import com.frame.fast.model.*;
 import com.frame.fast.order.SimpleOrder;

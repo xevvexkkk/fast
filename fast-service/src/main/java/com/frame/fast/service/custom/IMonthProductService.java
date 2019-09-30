@@ -19,6 +19,8 @@ public interface IMonthProductService extends IService<MonthProduct> {
 
     List<MonthProduct> getByCustomId(Long customId);
 
+    List<MonthProduct> list(Long customId);
+
     List<MonthProduct> getNotFinishedProducts(Long customId);
 
     List<MonthProduct> getCanNotRepayMonthProducts(Long customId);

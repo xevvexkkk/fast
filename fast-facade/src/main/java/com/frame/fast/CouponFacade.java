@@ -97,7 +97,7 @@ public class CouponFacade {
             return checkResult;
         }
         couponBatch.setOpenId(personInfo.getOpenId());
-        couponBatch.setUserId(personInfo.getId());
+        couponBatch.setCustomId(personInfo.getId());
         couponBatch.setGiveDate(LocalDateTime.now());
         couponBatchService.updateById(couponBatch);
         //激活对应的产品

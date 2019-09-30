@@ -2,6 +2,7 @@ package com.frame.fast.scheduler;
 
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.frame.fast.JobFacade;
 import com.frame.fast.model.FastConstant;
 import com.frame.fast.model.MonthCardStatus;
 import com.frame.fast.model.MonthProduct;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +35,8 @@ public class SchedulerTask {
     private PersonInfoService personInfoService;
     @Resource
     private ValueOperations<String, String> valueOperations;
-
+    @Resource
+    private JobFacade jobFacade;
     @Scheduled(cron = "0 0 0 * * ? ")
     @GetMapping("/refreshMonthCardInfo")
     public void refreshMonthCardInfo(){
@@ -64,4 +69,11 @@ public class SchedulerTask {
         });
     }
 
+    @Scheduled(cron = "0 0 1 * * ? ")
+    @GetMapping("/runDailyJob")
+    public void runDailyJob(){
+        LocalDate today = LocalDateTime.now().toLocalDate();
+        jobFacade.synDaily2History(today.minusDays(1));
+        jobFacade.generateDailyCardJobPlan(today);
+    }
 }
