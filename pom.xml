@@ -17,6 +17,7 @@
         <module>fast-service</module>
         <module>fast-facade</module>
         <module>fast-foundation</module>
+        <module>fast-cms</module>
     </modules>
 
     <properties>
@@ -157,6 +158,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
         </dependencies>

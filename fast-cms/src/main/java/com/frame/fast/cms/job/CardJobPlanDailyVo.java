@@ -1,14 +1,12 @@
 package com.frame.fast.cms.job;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.frame.fast.cms.user.UserInfoVo;
 import com.frame.fast.model.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.springframework.beans.BeanUtils;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class CardJobPlanDailyJobVo extends CardJobPlanDaily {
+public class CardJobPlanDailyVo extends CardJobPlanDaily {
 
     /**
      * 处理状态
@@ -40,11 +38,11 @@ public class CardJobPlanDailyJobVo extends CardJobPlanDaily {
      */
     private String communityDesc;
 
-    public static List<CardJobPlanDailyJobVo> tranFromOrigin(List<CardJobPlanDaily> cardJobPlanDailies){
-        List<CardJobPlanDailyJobVo> dailyJobVos = new ArrayList<>();
+    public static List<CardJobPlanDailyVo> tranFromOrigin(List<CardJobPlanDaily> cardJobPlanDailies){
+        List<CardJobPlanDailyVo> dailyJobVos = new ArrayList<>();
         if(CollectionUtils.isNotEmpty(cardJobPlanDailies)){
             cardJobPlanDailies.forEach(n->{
-                CardJobPlanDailyJobVo vo = new CardJobPlanDailyJobVo();
+                CardJobPlanDailyVo vo = new CardJobPlanDailyVo();
                 BeanUtils.copyProperties(n,vo);
                 vo.setStatusDesc(n.getStatus().getName());
                 vo.setCategoryDesc(n.getCategory().getName());

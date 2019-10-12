@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.frame.fast.model.*;
 import com.frame.fast.service.custom.IMonthProductService;
 import com.frame.fast.service.custom.ISingleProductService;
+import com.frame.fast.service.job.ISingleJobPlanService;
 import com.frame.fast.service.order.IOrderService;
 import com.frame.fast.service.person.IPersonAddressPurchaseInfoService;
 import com.frame.fast.service.person.PersonInfoService;
@@ -40,6 +41,8 @@ public class PayFacade {
     private ISingleProductService singleProductService;
     @Resource
     private MailService mailService;
+    @Resource
+    private ISingleJobPlanService singleJobPlanService;
     public CheckResult checkBeforeOrder(String openId, String msg, ProductSort productSort){
         CheckResult result = new CheckResult();
         if(StringUtils.isEmpty(openId)){
@@ -133,7 +136,8 @@ public class PayFacade {
                     single.setRemainNum(single.getRemainNum() + order.getProductSort().getNum());
                     singleProductService.updateById(single);
                 }
-
+                SingleJobPlan singleJobPlan = SingleJobPlan.buildSingle(single,personInfo);
+                singleJobPlanService.save(singleJobPlan);
             }
             //4.用户地址购买信息
             PersonAddressPurchaseInfo purchaseInfo = purchaseInfoService.getByUserIdAndAddress(order.getCustomId(), order.getProductSort(), personInfo.getCommunity().getValue(), personInfo.getArea(), personInfo.getAddress());

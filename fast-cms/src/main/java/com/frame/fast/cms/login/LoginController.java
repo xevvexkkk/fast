@@ -2,12 +2,12 @@ package com.frame.fast.cms.login;
 
 import com.frame.fast.model.ResponseVo;
 import com.frame.fast.model.Staff;
-import com.frame.fast.service.person.PersonInfoService;
 import com.frame.fast.service.staff.IStaffService;
-import com.frame.fast.util.JsonUtils;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 

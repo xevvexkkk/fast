@@ -48,3 +48,10 @@ appId: wxbc1b80f39e9ef6a8
 mail:
   fromMail:
     addr: fast_notify@163.com
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

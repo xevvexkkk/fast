@@ -189,6 +189,9 @@
 			<ul>
 				<li><a class="waves-effect" href="javascript:Tab.addTab('历史回收管理', '/job/history/toList');">历史回收管理</a></li>
 			</ul>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('单次回收管理', '/job/single/toList');">单次回收管理</a></li>
+			</ul>
 			</li>
 			<li class="sub-menu system_menus system_1 6">
 			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-accounts"></i> 职员</a>

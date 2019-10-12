@@ -4,6 +4,7 @@ package com.frame.fast.cms.job;
 import com.frame.fast.model.*;
 import com.frame.fast.service.job.ICardJobPlanDailyService;
 import com.frame.fast.service.job.ICardJobPlanHistoryService;
+import com.frame.fast.service.job.ISingleJobPlanService;
 import com.frame.fast.service.staff.IStaffService;
 import com.frame.fast.util.JsonUtils;
 import com.google.gson.Gson;
@@ -35,6 +36,8 @@ public class CmsCardJobPlanController {
     @Resource
     private ICardJobPlanHistoryService historyService;
     @Resource
+    private ISingleJobPlanService singleJobPlanService;
+    @Resource
     private IStaffService staffService;
     @RequestMapping("/daily/toList")
     public String toList(Model model){
@@ -55,7 +58,7 @@ public class CmsCardJobPlanController {
     public String list(Model model){
         List<CardJobPlanDaily> list = cardJobPlanDailyService.list();
         model.addAttribute("jobStatuses",JobStatus.values());
-        return JsonUtils.toJson(CardJobPlanDailyJobVo.tranFromOrigin(list));
+        return JsonUtils.toJson(CardJobPlanDailyVo.tranFromOrigin(list));
     }
 
     @PostMapping("/daily/doEdit")
@@ -70,6 +73,29 @@ public class CmsCardJobPlanController {
     public String historyList(Model model){
         List<CardJobPlanHistory> list = historyService.list();
         model.addAttribute("jobStatuses",JobStatus.values());
-        return JsonUtils.toJson(CardJobPlanHistoryJobVo.tranFromOrigin(list));
+        return JsonUtils.toJson(CardJobPlanHistoryVo.tranFromOrigin(list));
+    }
+
+    @RequestMapping("/single/toList")
+    public String toSingleList(Model model){
+        model.addAttribute("jobStatuses",JobStatus.values());
+        List<Staff> staff = staffService.list();
+        model.addAttribute("staffs",staff);
+        return "single_job_list";
+    }
+
+    @GetMapping("/single/list")
+    @ResponseBody
+    public String listSingles(Model model){
+        List<SingleJobPlan> list = singleJobPlanService.list();
+        model.addAttribute("jobStatuses",JobStatus.values());
+        return JsonUtils.toJson(SingleJobPlanVo.tranFromOrigin(list));
+    }
+
+    @PostMapping("/single/doEdit")
+    @ResponseBody
+    public ResponseVo doEdit(SingleJobPlan singleJobPlan){
+        singleJobPlanService.updateById(singleJobPlan);
+        return ResponseVo.successVo();
     }
 }

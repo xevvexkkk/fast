@@ -2,7 +2,7 @@ package com.frame.fast.cms.job;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.frame.fast.model.CardJobPlanDaily;
-import com.frame.fast.model.CardJobPlanHistory;
+import com.frame.fast.model.SingleJobPlan;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -22,7 +22,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class CardJobPlanHistoryJobVo extends CardJobPlanHistory {
+public class SingleJobPlanVo extends SingleJobPlan {
 
     /**
      * 处理状态
@@ -39,19 +39,19 @@ public class CardJobPlanHistoryJobVo extends CardJobPlanHistory {
      */
     private String communityDesc;
 
-    public static List<CardJobPlanHistoryJobVo> tranFromOrigin(List<CardJobPlanHistory> cardJobPlanHistories){
-        List<CardJobPlanHistoryJobVo> dailyJobVos = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(cardJobPlanHistories)){
-            cardJobPlanHistories.forEach(n->{
-                CardJobPlanHistoryJobVo vo = new CardJobPlanHistoryJobVo();
+    public static List<SingleJobPlanVo> tranFromOrigin(List<SingleJobPlan> singleJobPlans){
+        List<SingleJobPlanVo> singleJobPlanVos = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(singleJobPlans)){
+            singleJobPlans.forEach(n->{
+                SingleJobPlanVo vo = new SingleJobPlanVo();
                 BeanUtils.copyProperties(n,vo);
                 vo.setStatusDesc(n.getStatus().getName());
                 vo.setCategoryDesc(n.getCategory().getName());
                 vo.setCommunityDesc(n.getCommunity().getName());
-                dailyJobVos.add(vo);
+                singleJobPlanVos.add(vo);
             });
         }
-        return dailyJobVos;
+        return singleJobPlanVos;
     }
 
 }

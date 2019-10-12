@@ -4,11 +4,9 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.frame.fast.model.Staff;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Data
