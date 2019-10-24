@@ -78,6 +78,9 @@ public class PersonController {
             return gson.toJson("未查询到注册用户");
         }
         log.info("personInfo is {}",personInfo.toString());
+        if(personInfo.getCommunity() != null){
+            personInfo.setCommunityDesc(personInfo.getCommunity().getName());
+        }
         return gson.toJson(ResponseVo.successVo("success",personInfo));
     }
 

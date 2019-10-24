@@ -59,9 +59,7 @@ public class PayController {
             }
 
             PersonInfo user = personInfoService.getByOpenId(openId);
-            if(user == null){
-                return ResponseVo.failVo("用户尚未预留地址，请前往我的->我的地址预留地址后再进行购买");
-            }
+
             //生成的随机字符串
             String nonce_str = StringUtil.getRandomStringByLength(32);
             //商品名称
@@ -129,6 +127,7 @@ public class PayController {
                 String paySign = PayUtil.sign(stringSignTemp, WxPayConfig.key, "utf-8").toUpperCase();
                 response.put("order_id",orderId);
                 response.put("paySign", paySign);
+                response.put("address",user.getAddress());
                 Order order = new Order();
                 order.setOrderStatus(OrderStatus.SUCCESS);
                 order.setCustomId(user.getId());
