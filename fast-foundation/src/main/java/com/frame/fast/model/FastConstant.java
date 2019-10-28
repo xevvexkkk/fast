@@ -20,6 +20,8 @@ public class FastConstant {
 
     //下单成功通知
     public static final String[] ORDER_NOTIFY_MAIN_LIST = {"xerrex@163.com"};
+    //告警通知
+    public static final String[] EXCEPTION_WARN_LIST = {"xerrex@163.com"};
 
     public static String getOrderNotifyContent(ProductSort productSort,String custName,String mobile,int community,String address){
         return "用户姓名: " +
